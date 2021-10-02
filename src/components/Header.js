@@ -2,10 +2,13 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button, Nav, Image } from "react-bootstrap";
 
-import { Web3Context } from "../web3";
+import { useWeb3React } from "@web3-react/core";
+import { AppContext } from "../web3";
+import { RPC_EXPLORERS } from "../web3/constants";
 
 export default function Header() {
-  const { connectWeb3, account, logout } = useContext(Web3Context);
+  const { logout } = useContext(AppContext);
+  const { account, chainId, connector } = useWeb3React();
 
   return (
     <Container fluid>
@@ -20,31 +23,27 @@ export default function Header() {
             />
           </div>
         </Col>
-        <Col sm="6">
+        <Col sm="4">
           <Nav activeKey="/home">
             <Nav.Item className="mr-4">
               <Link to="/home">Home</Link>
             </Nav.Item>
             <Nav.Item className="mr-4">
-              <Link to="/dashboard" eventKey="dashboard">
-                Dashboard
-              </Link>
+              <Link to="/dashboard">Dashboard</Link>
             </Nav.Item>
             <Nav.Item className="mr-4">
-              <Link to="/upload" eventKey="create">
-                Upload
-              </Link>
+              <Link to="/upload">Upload</Link>
             </Nav.Item>
           </Nav>
         </Col>
         <Col>
-          {account ? (
-            <Row className="align-items-right">
-              <Col sm="8" className="align-self-center">
-                <h5 className="text-right">
-                  Connected:{" "}
+          {account && (
+            <Row>
+              <Col sm="4" className="align-self-center">
+                <h6>
+                  Account:{" "}
                   <a
-                    href={`https://etherscan.io/address/${account}`}
+                    href={`${RPC_EXPLORERS[chainId]}/address/${account}`}
                     target="_blank"
                     rel="noreferrer"
                     className="account-link"
@@ -53,7 +52,11 @@ export default function Header() {
                       "..." +
                       account.substring(38, 42)}
                   </a>
-                </h5>
+                </h6>
+              </Col>
+
+              <Col sm="4" className="align-self-center">
+                <h6>Chain Id: {chainId}</h6>
               </Col>
 
               <Col>
@@ -66,14 +69,6 @@ export default function Header() {
                 </Button>
               </Col>
             </Row>
-          ) : (
-            <Button
-              className="float-right rounded-pill mr-3"
-              variant="outline-secondary"
-              onClick={connectWeb3}
-            >
-              Connect Web3
-            </Button>
           )}
         </Col>
       </Row>

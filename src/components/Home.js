@@ -1,30 +1,36 @@
 import React, { useContext } from "react";
-import { Container, Jumbotron, Image } from "react-bootstrap";
+import { Container, Jumbotron, Image, Button } from "react-bootstrap";
 
-import { Web3Context } from "../web3";
+import { AppContext } from "../web3";
+import { useWeb3React } from "@web3-react/core";
 
 export default function Home() {
-  const { account } = useContext(Web3Context);
+  const { connectWeb3 } = useContext(AppContext);
+  const { account } = useWeb3React();
 
   return (
     <div className="app-container h-100">
       <Jumbotron className="home-page mt-5">
-        <Container className="text-center">
-          <h1>React Dapp Starter Kit</h1>
-          {!account && (
-            <p>
-              <h4 className="mt-5 text-secondary">
-                Let's start by connecting to a web3 provider!
-              </h4>
-            </p>
-          )}
-        </Container>
+        {account ? (
+          <h3>Connected!</h3>
+        ) : (
+          <Container className="text-center">
+            <Button
+              className="mr-3"
+              variant="outline-warning"
+              onClick={() => connectWeb3("Injected")}
+            >
+              Metamask
+            </Button>
+            <Button
+              variant="outline-primary"
+              onClick={() => connectWeb3("WalletConnect")}
+            >
+              WalletConnect
+            </Button>
+          </Container>
+        )}
       </Jumbotron>
-      <Image
-        style={{ maxWidth: "700px" }}
-        src="https://miro.medium.com/max/1024/1*JMkw9e9X4FbuJu_V5wn4fg.png"
-        fluid
-      />
     </div>
   );
 }

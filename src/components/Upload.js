@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Row, Button, Spinner } from "react-bootstrap";
-import { Web3Context } from "../web3";
+import { useWeb3React } from "@web3-react/core";
 import ipfs from "../utils/ipfs";
 
 // Components
@@ -9,7 +9,7 @@ import notify from "../utils/notify";
 // Upload Loan Details to IPFS and
 // trigger Loan Creation to Smart Contract
 export default function Loan() {
-  const { account } = useContext(Web3Context);
+  const { account } = useWeb3React();
 
   // Component State
   const [file, setFile] = useState(null);

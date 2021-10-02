@@ -3,6 +3,11 @@ export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const ETH_ADDRESS = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
 export const DAI_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 
+export const RPC_EXPLORERS = {
+  1: "https://etherscan.io",
+  137: "https://polygonscan.com",
+};
+
 // CONTRACT ABIS
 export const ERC20_ABI = [
   {

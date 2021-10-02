@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Web3Context } from "../web3";
+import { AppContext } from "../web3";
 
 export default function Dashboard() {
   const {
     getBalances,
     contracts: { token },
-  } = useContext(Web3Context);
+  } = useContext(AppContext);
 
   const [balances, setBalances] = useState({});
 
