@@ -1,7 +1,8 @@
 // ASSETS
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const ETH_ADDRESS = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
-export const DAI_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
+export const DAI_ADDRESS_ETH = "0x6b175474e89094c44da98b954eedeac495271d0f";
+export const DAI_ADDRESS_POLY = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063";
 
 export const RPC_EXPLORERS = {
   1: "https://etherscan.io",

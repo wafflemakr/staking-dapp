@@ -1,19 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { AppContext } from "../web3";
 
 export default function Dashboard() {
-  const {
-    getBalances,
-    contracts: { token },
-  } = useContext(AppContext);
-
-  const [balances, setBalances] = useState({});
-
-  useEffect(() => {
-    if (token) {
-      getBalances().then((b) => setBalances(b));
-    } else setBalances({});
-  }, [token]);
+  const { balances } = useContext(AppContext);
 
   return (
     <div className="app-container">

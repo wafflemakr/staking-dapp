@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Router, Route, Redirect } from "react-router-dom";
+import { useWeb3React } from "@web3-react/core";
 import history from "./history";
 
 // COMPONENTS
@@ -9,7 +10,9 @@ import Dashboard from "./components/Dashboard";
 import Upload from "./components/Upload";
 
 export default function App() {
-  const routes = (
+  const { account } = useWeb3React();
+
+  let routes = (
     <Switch>
       <Route path="/" exact>
         <Home />
@@ -23,6 +26,16 @@ export default function App() {
       <Redirect to="/" />
     </Switch>
   );
+
+  if (!account)
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
 
   return (
     <>

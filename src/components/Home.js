@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Container, Jumbotron, Image, Button } from "react-bootstrap";
+import { Container, Jumbotron, Button } from "react-bootstrap";
 
 import { AppContext } from "../web3";
 import { useWeb3React } from "@web3-react/core";

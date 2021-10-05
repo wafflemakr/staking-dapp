@@ -1,27 +1,18 @@
-import React, {
-  useState,
-  useReducer,
-  useEffect,
-  useCallback,
-  createContext,
-} from "react";
-
+import React, { useState, useReducer, useEffect, createContext } from "react";
 import { Web3Reducer } from "./reducer";
-
-import { ERC20_ABI, DAI_ADDRESS } from "./constants";
-
+import { ERC20_ABI, DAI_ADDRESS_ETH, DAI_ADDRESS_POLY } from "./constants";
 import notify from "../utils/notify";
-
 import history from "../history";
-
 import { useWeb3React } from "@web3-react/core";
-
 import { connectorsByName } from "./connectors";
+import { Contract } from "@ethersproject/contracts";
+import { ethers } from "ethers";
 
 const initialState = {
   contracts: {
     token: null,
   },
+  balances: null,
 };
 
 export const AppContext = createContext(initialState);
@@ -30,15 +21,13 @@ export const AppProvider = ({ children }) => {
   const { connector, chainId, account, activate, deactivate, library } =
     useWeb3React();
 
-  console.log(library);
-
   const [activatingConnector, setActivatingConnector] = useState();
 
   const [state, dispatch] = useReducer(Web3Reducer, initialState);
 
   const { contracts } = state;
 
-  // STATE MANAGEMENT
+  // === STATE MANAGEMENT ===
   const setContracts = (contracts) => {
     dispatch({
       type: "SET_CONTRACTS",
@@ -46,14 +35,37 @@ export const AppProvider = ({ children }) => {
     });
   };
 
-  // const setProtocol = async () => {
-  //   console.log(library.provider);
-  //   // Contract Instances
-  //   window.token = new library.provider.Contract(ERC20_ABI, DAI_ADDRESS);
-  //   setContracts({
-  //     token: window.token,
-  //   });
-  // };
+  const setBalances = (_balances) => {
+    console.log(_balances);
+    dispatch({
+      type: "SET_BALANCES",
+      payload: _balances,
+    });
+  };
+
+  const setProtocol = async () => {
+    try {
+      const tokenAddress = chainId === 1 ? DAI_ADDRESS_ETH : DAI_ADDRESS_POLY;
+
+      const signer = library.getSigner();
+
+      // Contract Instances
+      window.token = new Contract(tokenAddress, ERC20_ABI, signer);
+
+      const daiBalance = await window.token.balanceOf(account);
+      const ethBalance = await library.getBalance(account);
+
+      setContracts({
+        token: window.token,
+      });
+      setBalances({
+        DAI: ethers.utils.formatEther(daiBalance),
+        ETH: ethers.utils.formatEther(ethBalance),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // === HELPERS === //
   const logout = () => {
@@ -81,12 +93,11 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (account) {
+    if (account && library) {
       console.log("Account connected", account);
-      // setProtocol();
-      library.getBalance(account).then(console.log);
+      setProtocol();
     }
-  }, [account]);
+  }, [account, library]);
 
   useEffect(() => {
     if (chainId) console.log("chainId connected", chainId);

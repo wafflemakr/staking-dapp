@@ -20,10 +20,10 @@ export const Web3Reducer = (state, action) => {
         ...state,
         contracts: action.payload,
       };
-    case "SET_LOANS":
+    case "SET_BALANCES":
       return {
         ...state,
-        loans: action.payload,
+        balances: action.payload,
       };
     case "SET_ROLES":
       return {
