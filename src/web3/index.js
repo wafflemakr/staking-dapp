@@ -6,7 +6,7 @@ import history from "../history";
 import { useWeb3React } from "@web3-react/core";
 import { connectorsByName } from "./connectors";
 import { Contract } from "@ethersproject/contracts";
-import { ethers } from "ethers";
+import { formatEther } from "@ethersproject/units";
 
 const initialState = {
   contracts: {
@@ -59,8 +59,8 @@ export const AppProvider = ({ children }) => {
         token: window.token,
       });
       setBalances({
-        DAI: ethers.utils.formatEther(daiBalance),
-        ETH: ethers.utils.formatEther(ethBalance),
+        DAI: formatEther(daiBalance),
+        ETH: formatEther(ethBalance),
       });
     } catch (error) {
       console.log(error);
