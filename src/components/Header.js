@@ -7,7 +7,7 @@ import { AppContext } from "../web3";
 import { RPC_EXPLORERS } from "../web3/constants";
 
 export default function Header() {
-  const { logout } = useContext(AppContext);
+  const { logout, connectWeb3 } = useContext(AppContext);
   const { account, chainId, connector } = useWeb3React();
 
   return (
@@ -24,20 +24,14 @@ export default function Header() {
           </div>
         </Col>
         <Col sm="4">
-          <Nav activeKey="/home">
+          <Nav activeKey="/">
             <Nav.Item className="mr-4">
-              <Link to="/home">Home</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-4">
-              <Link to="/dashboard">Dashboard</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-4">
-              <Link to="/upload">Upload</Link>
+              <Link to="/">Dashboard</Link>
             </Nav.Item>
           </Nav>
         </Col>
         <Col>
-          {account && (
+          {account ? (
             <Row>
               <Col sm="4" className="align-self-center">
                 <h6>
@@ -69,6 +63,14 @@ export default function Header() {
                 </Button>
               </Col>
             </Row>
+          ) : (
+            <Button
+              className="rounded-pill"
+              variant="outline-secondary"
+              onClick={() => connectWeb3("Injected")}
+            >
+              Login
+            </Button>
           )}
         </Col>
       </Row>

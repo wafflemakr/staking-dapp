@@ -5,7 +5,7 @@ import { Web3Provider } from "@ethersproject/providers";
 const POLLING_INTERVAL = 12000;
 const RPC_URLS = {
   1: process.env.REACT_APP_RPC_URL_1,
-  137: process.env.REACT_APP_RPC_URL_137,
+  137: "https://polygon-rpc.com/",
 };
 
 export const injected = new InjectedConnector({
