@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Live Demo: [https://react-dapp-kit.netlify.app/](https://react-dapp-kit.netlify.app/)
+Live App: [https://calm-longma-af90be.netlify.app/](https://calm-longma-af90be.netlify.app/)
 
 ## Available Scripts
 
